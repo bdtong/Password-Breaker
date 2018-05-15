@@ -5,7 +5,7 @@
  */
 
 
-
+const sha256 = require('js-sha256');
 const WebSocket = require('ws');
 const packageData = require('./package.json');
 const readline = require('readline');
@@ -33,31 +33,46 @@ const broadcast = (data) => {
 	});
 };
 
+let hashed;
+const attackSpace = Math.pow(26, 4);
+
 lineInterface.on('line', (line) => {
-	broadcast(JSON.stringify({
-		data: line,
-		command: 'MESSAGE',
-		ip: serverIp,
+        
+        if (line.length === 4) {
+            let range = attackSpace/ numClients;
+            hashed = sha256(line);
+            broadcast(JSON.stringify({
+		
+		command: 'BREAK',
+		range,
+                hashed,
 	}));
+        }
+    
+	
      
 });	
 
-server.on('connection', (ws) => {
+server.on('connection', (ws) => { 
+    //console.log(`${messageData.ip} has connected`);
+                                numClients++;
+                                console.log(numClients + " computer(s) connected");
+                                
+                         
+                               
+				ws.send(JSON.stringify({
+                                    command: 'init',
+                                    data: numClients,
+                                }));
+                                
 	ws.on('message', (message) => {
 		const messageData = JSON.parse(message);
 		switch (messageData.command) {
 			case 'OPEN':
-				console.log(`${messageData.ip} has connected`);
-                                numClients++;
-                                console.log(numClients + " computer(s) connected");
-                                messageData.data = numClients;
-                         
-                                server.clients.forEach((client) => {
+				
+                                                
 					
-						client.send(message);
-                                                console.log("am here");
-					}
-				);
+				
 				break;
 			case 'MESSAGE':
 				console.log(`${messageData.ip} sent :  ${messageData.data}`);
@@ -67,6 +82,9 @@ server.on('connection', (ws) => {
 					}
 				});
 				break;
+                        case 'FOUND' : 
+                                console.log(messageData.answer);
+                                break;
 			default:
 			console.log('unknown command');
 		}
