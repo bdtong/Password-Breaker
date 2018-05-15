@@ -12,11 +12,11 @@ npm install
 ```
 To start the server 
 ```
-node server.js
+node passwordSender.js
 ```
 To start the client.
 ```
-node client.js <ip optional>
+node passwordReciever.js <ip optional>
 ```
 Starting the client with no ip will default to localhost.
 Also do this:
