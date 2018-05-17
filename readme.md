@@ -1,25 +1,34 @@
-# Websocket Demo
+# Password Breaker Instructions
 
-## Installing
+## Installing Node
 Make sure you have node installed first. If you don't have it, get it from here: https://nodejs.org/en/
-
-Demo uses WebSocket which is a TCP protocol.
-You can find more information [here](https://tools.ietf.org/html/rfc6455) and  [here](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API). Note the mozilla one is not the one we are using, that one is for browsers. This can also work in the browser (Currently only way to maintain tcp connection in browser)
 
 Once you have that, run this command in the directory
 ```
 npm install
 ```
-To start the server 
+
+## Hosting the Server
+
+Only one person can host the server
+
+To open the server 
 ```
 node passwordSender.js
 ```
-To start the client.
+Once at least one client has connected, type a 4 letter lowercase string to start the breaker. For example:
 ```
-node passwordReciever.js <ip optional>
+abcd
 ```
-Starting the client with no ip will default to localhost.
-Also do this:
+Type "R" to create a random string
 ```
-npm install js-sha256
+R
 ```
+
+## Becoming a Client
+
+To start the client
+```
+node passwordReceiver.js <server ip>
+```
+Starting the client with no ip will default to localhost. Then wait for the server to send a string.
