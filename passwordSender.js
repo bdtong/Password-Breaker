@@ -53,22 +53,37 @@ lineInterface.on('line', (line) => {
             let range = attackSpace/ numClients;
             //hashing
             hashed = sha256(random);
+            
+            //printing timestamp
+            var dt = new Date();
+            var utcDate = dt.toUTCString();
+            console.log(`Password sent [${utcDate}]`);
+                    
             broadcast(JSON.stringify({
 		command: 'BREAK',
 		range,
                 hashed,
+                utcDate,
             }));
         }
         //checking if password sent is 4 characters
         else if (line.length === 4) {
+            
             //calculating range
             let range = attackSpace/ numClients;
             //hashing
             hashed = sha256(line);
+            
+            //printing timestamp
+            var dt = new Date();
+            var utcDate = dt.toUTCString();
+            console.log(`Password sent [${utcDate}]`);
+            
             broadcast(JSON.stringify({
 		command: 'BREAK',
 		range,
                 hashed,
+                utcDate,
             }));
         } else {
             console.log(`ERROR: password must be 4 characters long`);
@@ -96,10 +111,10 @@ server.on('connection', (ws) => {
                 console.log(`Computer ${messageData.id} calculating...`);
                 break;
             case 'END' :
-                console.log(`Computer ${messageData.id} failed`);
+                console.log(`Computer ${messageData.id} failed [${messageData.utcDate}]`);
                 break;
             case 'FOUND' :
-                console.log(`Computer ${messageData.id} succeeded`);
+                console.log(`Computer ${messageData.id} succeeded [${messageData.utcDate}]`);
                 console.log("Password: ", messageData.answer);                
                 break;
             default:

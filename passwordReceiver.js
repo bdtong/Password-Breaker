@@ -93,26 +93,23 @@ const breakPassword = (targetHash, range ) => {
         //if this client found password
         if (targetHash === hashed) {
             console.log(`PASSWORD BROKEN : '${mapped}' Attempt number: ${attempts}`);
-            
-            var dt = new Date();
-            var utcDate = dt.toUTCString();
-            console.log(dt.toUTCString());
-            
             return mapped;
         }
     }
     
     console.log(`[Job Completed]`);
     
+    //printing timestamp
     var dt = new Date();
     var utcDate = dt.toUTCString();
-    console.log(dt.toUTCString());
+    console.log(`Computer ${id} couldn't find the password. Time: ${utcDate}`);
     
     //command 'END' => server
     //client has failed
     client.send(JSON.stringify({
                         command : "END",
                         id,
+                        utcDate,
                     }));
     
     //if this client did not find password
@@ -137,13 +134,21 @@ client.on('message', (message) => {
             case 'BREAK' : 
                 //running passwordBreaker. returns cracked password
                 answer = breakPassword(messageData.hashed, messageData.range);
+                
                 //if we find password, command 'FOUND' => server
                 //client successful
                 if (answer) { 
+                    
+                    //printing timestamp
+                    var dt = new Date();
+                    var utcDate = dt.toUTCString();
+                    console.log(`Computer ${id} found the password. Time: ${utcDate}`);
+                
                     client.send(JSON.stringify({
                         command : "FOUND",
                         answer,
                         id,
+                        utcDate,
                     }));
                 }
                 break;
