@@ -98,6 +98,7 @@ const breakPassword = (targetHash, range ) => {
     }
     
     console.log(`[Job Completed]`);
+    console.log(Date.now());
     
     //command 'END' => server
     //client has failed
