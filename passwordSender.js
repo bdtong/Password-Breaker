@@ -34,7 +34,7 @@ const broadcast = (data) => {
 var numClients = 0;
 
 let hashed;
-const attackSpace = Math.pow(26, 4);
+const attackSpace = Math.pow(26, 10);
 
 //when password is sent...
 lineInterface.on('line', (line) => {
@@ -44,7 +44,7 @@ lineInterface.on('line', (line) => {
             let random = "";
             var possible = "abcdefghijklmnopqrstuvwxyz";
 
-            for (var i = 0; i < 4; i++)
+            for (var i = 0; i < 10; i++)
                 random += possible.charAt(Math.floor(Math.random() * possible.length));
   
             //console.log(`Random password: ${random}`);
@@ -67,7 +67,7 @@ lineInterface.on('line', (line) => {
             }));
         }
         //checking if password sent is 4 characters
-        else if (line.length === 4) {
+        else if (line.length === 10) {
             
             //calculating range
             let range = attackSpace/ numClients;
