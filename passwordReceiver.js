@@ -58,7 +58,7 @@ const breakPassword = (targetHash, range ) => {
     //a-z
     let availableItems = 26;
     //max lenght of password
-    let maxLength = 10;
+    let maxLength = 4;
     //range of passwords
     let attackRange = Math.pow(availableItems, maxLength);
     console.log(`Total bruteforce combinations : ${attackRange}`);
