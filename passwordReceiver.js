@@ -93,12 +93,20 @@ const breakPassword = (targetHash, range ) => {
         //if this client found password
         if (targetHash === hashed) {
             console.log(`PASSWORD BROKEN : '${mapped}' Attempt number: ${attempts}`);
+            
+            var dt = new Date();
+            var utcDate = dt.toUTCString();
+            console.log(dt.toUTCString());
+            
             return mapped;
         }
     }
     
     console.log(`[Job Completed]`);
-    console.log(Date.now());
+    
+    var dt = new Date();
+    var utcDate = dt.toUTCString();
+    console.log(dt.toUTCString());
     
     //command 'END' => server
     //client has failed
